@@ -10,9 +10,9 @@ on:
         required: true
         type: choice
         options:
-        - Bekicot
-        - KeongBalap
-        default: 'Bekicot'
+        - WIP
+        - release
+        default: 'WIP'
       device-codename:
         required: true
         type: choice
@@ -42,4 +42,4 @@ jobs:
           anykernel3-url: https://github.com/SAM-715-ID/AnyKernel3
           anykernel3-branch: ${{ github.event.inputs.device-codename }}
           extra-cmd: LLVM=1 LLVM_IAS=1 KBUILD_BUILD_USER=KeongBalap
-          custom-package-name: KeongBalap_$(date +%d%H%M)_${{ github.event.inputs.device-codename }}-${{ github.event.inputs.release-type }}
+          custom-package-name: Bekicot_$(date +%d%H%M)_${{ github.event.inputs.device-codename }}-${{ github.event.inputs.release-type }}
