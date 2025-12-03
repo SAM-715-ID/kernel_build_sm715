@@ -33,7 +33,8 @@ jobs:
         with:
           kernel-url: https://github.com/SAM-715-ID/android_kernel_samsung_sm7150
           kernel-branch: ${{ github.event.inputs.kernel-branch }}
-          config: arch/arm64/configs/sdmmagpie_defconfig arch/arm64/configs/a71.config
+          config: sdmmagpie_defconfig a71.config
+          arch: arm64
           aosp-gcc: true
           aosp-clang: true
           aosp-clang-version: r563880
