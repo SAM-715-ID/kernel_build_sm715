@@ -10,15 +10,15 @@ on:
         required: true
         type: choice
         options:
-        - kaihatsu
-        - seishiki
-        default: 'kaihatsu'
+        - WIP
+        - release
+        default: 'WIP'
       device-codename:
         required: true
         type: choice
         options:
-        - a72q
-        - a52q
+        - a71
+        - a715
 
 jobs:
   build-kernel:
@@ -31,9 +31,9 @@ jobs:
       - name: Build
         uses: frstprjkt/kernel_build_action@main
         with:
-          kernel-url: https://github.com/frstprjkt/valeryn_samsung_sm7125
+          kernel-url: https://github.com/SAM-715-ID/kernel_samsung_sm7150
           kernel-branch: ${{ github.event.inputs.kernel-branch }}
-          config: vendor/samsung/sm7125_defconfig vendor/samsung/${{ github.event.inputs.device-codename }}.config
+          config: sdmmagpie_defconfig a71.config
           arch: arm64
           ksu: true
           ksu-skip-patch: true
@@ -44,7 +44,7 @@ jobs:
           aosp-clang: true
           aosp-clang-version: r563880
           anykernel3: true
-          anykernel3-url: https://github.com/frstprjkt/AnyKernel3
+          anykernel3-url: https://github.com/SAM-715-ID/AnyKernel3
           anykernel3-branch: ${{ github.event.inputs.device-codename }}
           extra-cmd: LLVM=1 LLVM_IAS=1 KBUILD_BUILD_USER=valeryn
-          custom-package-name: valeryn-ksu_$(date +%d%H%M)_${{ github.event.inputs.device-codename }}-${{ github.event.inputs.release-type }}
+          custom-package-name: Bekicot-ksu_$(date +%d%H%M)_${{ github.event.inputs.device-codename }}-${{ github.event.inputs.release-type }}
