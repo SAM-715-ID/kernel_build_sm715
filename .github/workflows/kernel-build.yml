@@ -31,7 +31,7 @@ jobs:
       - name: Build
         uses: frstprjkt/kernel_build_action@main
         with:
-          kernel-url: https://github.com/SAM-715-ID/android_kernel_samsung_sm7150
+          kernel-url: https://github.com/SAM-715-ID/kernel_samsung_sm7150
           kernel-branch: ${{ github.event.inputs.kernel-branch }}
           config: sdmmagpie_defconfig a71.config
           arch: arm64
