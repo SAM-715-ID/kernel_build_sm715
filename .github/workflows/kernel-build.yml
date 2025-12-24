@@ -37,7 +37,7 @@ jobs:
           arch: arm64
           aosp-gcc: true
           aosp-clang: true
-          aosp-clang-version: r563880
+          aosp-clang-version: r547379
           anykernel3: true
           anykernel3-url: https://github.com/SAM-715-ID/AnyKernel3
           anykernel3-branch: ${{ github.event.inputs.device-codename }}
@@ -69,7 +69,7 @@ jobs:
           arch: arm64
         with:
           name: dtb-${{ env.KERNEL_DEVICE }}-${{ env.KERNEL_NAME }}-${{ env.builddate }}
-          path: out/arch/arm64/boot/dtb
+          path: out/arch/arm64/boot/dts/qcom/sm6150.dtb
           if-no-files-found: ignore
           retention-days: 7
 
@@ -79,7 +79,7 @@ jobs:
           arch: arm64
         with:
           name: dtbo.img-${{ env.KERNEL_DEVICE }}-${{ env.KERNEL_NAME }}-${{ env.builddate }}
-          path: out/arch/arm64/boot/dtbo.img
+          path: out/arch/arm64/boot/dts/qcom/sm6150.dtbo
           if-no-files-found: ignore
           retention-days: 7
 
@@ -94,11 +94,11 @@ jobs:
           if [ -e "out/arch/arm64/boot/Image.gz-dtb" ]; then
             cp -f out/arch/arm64/boot/Image.gz-dtb ./AnyKernel3/
           fi
-          if [ -e "out/arch/arm64/boot/dtb.img" ]; then
-            cp -f out/arch/arm64/boot/dtb.img ./AnyKernel3/
+          if [ -e "out/arch/arm64/boot/dts/qcom/sm6150.dtb" ]; then
+            cp -f out/arch/arm64/boot/dts/qcom/sm6150.dtb ./AnyKernel3/
           fi
-          if [ -e "out/arch/arm64/boot/dtbo.img" ]; then
-            cp -f out/arch/arm64/boot/dtbo.img ./AnyKernel3/
+          if [ -e "out/arch/arm64/boot/dts/qcom/sm6150.dtbo" ]; then
+            cp -f out/arch/arm64/boot/dts/qcom/sm6150.dtbo ./AnyKernel3/
           fi
 
           cd AnyKernel3/
