@@ -42,7 +42,7 @@ jobs:
           ksu-version: susfs-rksu-master
           aosp-gcc: true
           aosp-clang: true
-          aosp-clang-version: r563880
+          aosp-clang-version: r547379
           anykernel3: true
           anykernel3-url: https://github.com/SAM-715-ID/AnyKernel3
           anykernel3-branch: ${{ github.event.inputs.device-codename }}
