@@ -10,9 +10,9 @@ on:
         required: true
         type: choice
         options:
-        - WIP
-        - release
-        default: 'WIP'
+        - kaihatsu
+        - seishiki
+        default: 'kaihatsu'
       device-codename:
         required: true
         type: choice
@@ -38,8 +38,8 @@ jobs:
           ksu: true
           ksu-skip-patch: true
           ksu-other: true
-          ksu-url: https://github.com/rsuntk/KernelSU
-          ksu-version: susfs-rksu-master
+          ksu-url: https://github.com/backslashxx/KernelSU
+          ksu-version: master
           aosp-gcc: true
           aosp-clang: true
           aosp-clang-version: r547379
@@ -47,4 +47,4 @@ jobs:
           anykernel3-url: https://github.com/SAM-715-ID/AnyKernel3
           anykernel3-branch: ${{ github.event.inputs.device-codename }}
           extra-cmd: LLVM=1 LLVM_IAS=1 KBUILD_BUILD_USER=KeongBalap
-          custom-package-name: Bekicot-ksu_$(date +%d%H%M)_${{ github.event.inputs.device-codename }}-${{ github.event.inputs.release-type }}
+          custom-package-name: KeongBalap-ksu-Bodrexin_$(date +%d%H%M)_${{ github.event.inputs.device-codename }}-${{ github.event.inputs.release-type }}
