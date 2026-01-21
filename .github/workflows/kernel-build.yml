@@ -11,14 +11,14 @@ on:
         type: choice
         options:
         - WIP
-        - release
+        - coba
         default: 'WIP'
       device-codename:
         required: true
         type: choice
         options:
         - a71
-        - a715
+        - a75
 
 jobs:
   build-kernel:
@@ -35,87 +35,10 @@ jobs:
           kernel-branch: ${{ github.event.inputs.kernel-branch }}
           config: sdmmagpie_defconfig a71.config
           arch: arm64
-          aosp-gcc: true
           aosp-clang: true
           aosp-clang-version: r563880c
           anykernel3: true
           anykernel3-url: https://github.com/SAM-715-ID/AnyKernel3
           anykernel3-branch: ${{ github.event.inputs.device-codename }}
-          extra-cmd: LLVM=1 LLVM_IAS=1 KBUILD_BUILD_USER=KeongBalap
+          extra-make-args: LLVM=1 LLVM_IAS=1 KBUILD_BUILD_USER=Bekicot
           custom-package-name: Bekicot_$(date +%d%H%M)_${{ github.event.inputs.device-codename }}-${{ github.event.inputs.release-type }}
-      - name: "💛 Upload Image"
-        uses: actions/upload-artifact@v4
-        env:
-          arch: arm64
-        with:
-          name: Image-${{ env.KERNEL_DEVICE }}-${{ env.KERNEL_NAME }}-${{ env.builddate }}
-          path: out/arch/arm64/boot/Image
-          if-no-files-found: ignore
-          retention-days: 7
-
-      - name: "💙 Upload Image.gz"
-        uses: actions/upload-artifact@v4
-        env:
-          arch: arm64
-        with:
-          name: Image.gz-${{ env.KERNEL_DEVICE }}-${{ env.KERNEL_NAME }}-${{ env.builddate }}
-          path: out/arch/arm64/boot/Image.gz
-          if-no-files-found: ignore
-          retention-days: 7
-
-      - name: "💜 Upload dtb"
-        uses: actions/upload-artifact@v4
-        env:
-          arch: arm64
-        with:
-          name: dtb-${{ env.KERNEL_DEVICE }}-${{ env.KERNEL_NAME }}-${{ env.builddate }}
-          path: out/arch/arm64/boot/dts/qcom/sm6150.dtb
-          if-no-files-found: ignore
-          retention-days: 7
-
-      - name: "❤️ Upload dtbo.img"
-        uses: actions/upload-artifact@v4
-        env:
-          arch: arm64
-        with:
-          name: dtbo.img-${{ env.KERNEL_DEVICE }}-${{ env.KERNEL_NAME }}-${{ env.builddate }}
-          path: out/arch/arm64/boot/dts/qcom/sm6150.dtbo
-          if-no-files-found: ignore
-          retention-days: 7
-
-      - name: "❤️ Pack AnyKernel3.zip"
-        if: ${{ env.useAnykernel == 'true' }}
-        env:
-          arch: arm64
-          anykernel: "${{ env.WORKSPACE }}/${{ env.KERNEL_DEVICE }}-${{ env.KERNEL_NAME }}_${{ env.builddate }}"
-        run: |
-          ls -al
-
-          if [ -e "out/arch/arm64/boot/Image.gz-dtb" ]; then
-            cp -f out/arch/arm64/boot/Image.gz-dtb ./AnyKernel3/
-          fi
-          if [ -e "out/arch/arm64/boot/dts/qcom/sm6150.dtb" ]; then
-            cp -f out/arch/arm64/boot/dts/qcom/sm6150.dtb ./AnyKernel3/
-          fi
-          if [ -e "out/arch/arm64/boot/dts/qcom/sm6150.dtbo" ]; then
-            cp -f out/arch/arm64/boot/dts/qcom/sm6150.dtbo ./AnyKernel3/
-          fi
-
-          cd AnyKernel3/
-          zip -q -r "${{ env.anykernel }}.zip" *
-
-      - name: "💾 Upload AnyKernel3 image => (${{ env.builddate }})"
-        uses: actions/upload-artifact@v4
-        if: ${{ env.useAnykernel == 'true' }}
-        with:
-          name: "${{ env.KERNEL_DEVICE }}-${{ env.KERNEL_NAME }}_${{ env.builddate }}"
-          path: AnyKernel3/*
-
-      - name: 🧧 Create GitHub Release => (${{ env.builddate }})
-        continue-on-error: true
-        uses: softprops/action-gh-release@v2
-        if: ${{ env.useAnykernel == 'true' && env.release == 'true' }}
-        with:
-          tag_name: v${{ env.builddate }}.${{ github.run_number }}
-          files: "${{ env.WORKSPACE }}/${{ env.KERNEL_DEVICE }}-${{ env.KERNEL_NAME }}_${{ env.builddate }}.zip"
-          generate_release_notes: false
